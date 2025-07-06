@@ -34,7 +34,18 @@ git clone https://github.com/mengxi-ream/visactor-next-template
 pnpm install
 ```
 
-3. Run the development server
+3. Add .env file in local
+
+```
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET={NEXTAUTH_SECRET}
+GOOGLE_CLIENT_ID={GOOGLE_CLIENT_ID}
+GOOGLE_CLIENT_SECRET={GOOGLE_CLIENT_SECRET}
+MONGODB_URI={MONGODB_URI}
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+4. Run the development server
 
 ```bash
 pnpm dev
