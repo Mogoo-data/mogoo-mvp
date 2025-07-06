@@ -30,26 +30,38 @@ export default function SitesCard({ data }: { data: SiteResult[] }) {
 
       </CardHeader>
       <CardContent className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-2 space-x-2">
-        {data.map(( site, index) => (
-            <Card 
-            key={index} 
-            onClick={() => window.location.href = `${window.location.origin}${window.location.pathname}/site/${site.id}`} 
-            className="cursor-pointer"
-            >
+        {data.length === 0 ? (
+            <Card className="bg-gray-100 dark:bg-gray-800 flex items-center justify-center min-h-[120px] col-span-1 sm:col-span-3 lg:col-span-4">
             <CardHeader>
-              <CardTitle className="text-md font-medium flex items-start gap-2">
-                <Factory className="w-5 h-5" />
-              {site.input_data.company_name}
+              <CardTitle className="text-md font-medium text-gray-400 dark:text-gray-500">
+                No sites data
               </CardTitle>
-              <CardDescription className="text-sm text-muted-foreground">
-              {site.created_at ? new Date(site.created_at).toLocaleDateString() : 'N/A'}
-              </CardDescription>
-              <CardDescription className="text-sm text-muted-foreground">
-              {site.input_data.country}
-              </CardDescription>
             </CardHeader>
+          </Card>
+        ) : (
+          data.map((site, index) => (
+            <Card
+              key={index}
+              onClick={() =>
+                window.location.href = `${window.location.origin}${window.location.pathname}/site/${site.id}`
+              }
+              className="cursor-pointer hover:bg-gray-100"
+            >
+              <CardHeader>
+                <CardTitle className="text-md font-medium flex items-start gap-2">
+                  <Factory className="w-5 h-5" />
+                  {site.input_data.company_name}
+                </CardTitle>
+                <CardDescription className="text-sm text-muted-foreground">
+                  {site.created_at ? new Date(site.created_at).toLocaleDateString() : 'N/A'}
+                </CardDescription>
+                <CardDescription className="text-sm text-muted-foreground">
+                  {site.input_data.country}
+                </CardDescription>
+              </CardHeader>
             </Card>
-        ))}
+          ))
+        )}
       </CardContent>
     </Card>
   )

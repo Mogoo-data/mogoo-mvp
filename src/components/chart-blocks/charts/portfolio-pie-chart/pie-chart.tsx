@@ -45,7 +45,7 @@ const spec = useMemo(() => ({
       content: [
         {
           key: datum => datum['type'],
-          value: datum => datum['value'] + '%'
+          value: datum => datum['value'].toFixed(2) + datum['unit'],
         }
       ]
     }

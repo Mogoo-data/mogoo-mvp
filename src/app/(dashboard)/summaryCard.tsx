@@ -27,6 +27,7 @@ export default function SummaryCard({ data } : SummaryCardProps) {
     []
   );
 
+
   return (
     <Card className="@container/card">
         <CardHeader className="relative">
@@ -40,12 +41,19 @@ export default function SummaryCard({ data } : SummaryCardProps) {
             <span># of Sites</span>
           </div>
           <ul className="space-y-2">
-            {summarizedData.map(({ country, sites }) => (
+            {summarizedData.length > 0 ? (
+              summarizedData.map(({ country, sites }) => (
               <li key={country} className="flex justify-between">
                 <span>{country}</span>
                 <Badge>{sites}</Badge>
               </li>
-            ))}
+              ))
+            ) : (
+              <li className="flex justify-between text-muted-foreground">
+              <span>No country yet</span>
+              <Badge>0</Badge>
+              </li>
+            )}
           </ul>
         </CardContent>
       </Card>

@@ -43,13 +43,12 @@ const config = {
           DEFAULT: "#ECF86E",
           foreground: "hsl(var(--secondary-foreground))",
         },
-      
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "#C4C4C4",
+          DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {

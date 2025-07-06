@@ -6,7 +6,7 @@ interface SelectComponentProps {
   id: string;
   field: ControllerRenderProps<any, any>;
   placeholder: string;
-  options: string[];
+  options: { label: string; value: string }[];
 }
 
 const SelectComponent: FC<SelectComponentProps> = ({ id, field, placeholder, options }) => {
@@ -17,8 +17,8 @@ const SelectComponent: FC<SelectComponentProps> = ({ id, field, placeholder, opt
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (
-          <SelectItem key={option} value={option}>
-            {option}
+          <SelectItem key={option.value} value={option.value} className="focus:bg-gray-200 dark:focus:bg-gray-700">
+            {option.label}
           </SelectItem>
         ))}
       </SelectContent>

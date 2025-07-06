@@ -29,9 +29,9 @@ export default function MarketCard({ data }: { data: MarketNews[] }) {
         <CardDescription>Latest related news</CardDescription>
       </CardHeader>
       <CardContent>
-        <ul className="space-y-2">
+        <ul className="space-y-1">
           {data.map(({ title, description, piority }, index) => (
-            <li key={index} className="flex flex-col ">
+            <li key={index} className="flex flex-col hover:bg-gray-100 transition-colors rounded-md p-2">
                 <button
                 className="flex justify-between items-start w-full text-left space-x-2"
                 onClick={() => window.location.href = "https://mogoo-website.vercel.app/"}

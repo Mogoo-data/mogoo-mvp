@@ -1,5 +1,6 @@
 import { create } from "domain";
 import type { SVGProps } from "react";
+import { number } from "zod";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -11,11 +12,14 @@ export type InputData = {
   electricity_type: number;
   growth_rate: number; // 年度用電增長率 (百分比)
   industry: string;
-  procure_option: number[];
-  site_type: number; // 0-3 代表不同場址類型
+  procure_option: ProcureOption[];
+  site_type: SiteType; // 0-3 代表不同場址類型
   annual_consumption: number; // 年度用電量 (kWh)
   target_ratio: number;
   target_year: number; // 目標年份
+  use_rec: boolean
+  use_onsite: boolean
+  onsite_area: number; // onsite solar面積 (m2)
 };
 
 export type OutputResult = {
@@ -41,15 +45,71 @@ export type OutputResult = {
   total_surplus: number; // 總餘電量 (kWh)
   total_procurement: number; // 總購電量 (kWh)
   surplus_ratio: number; // 餘電比例
-  additionality_score: number; // Additionality 評分
-  implementation_difficulty: number; // 採購難度評分
-  period_re_ratio: number; // 各時段匹配率
-  monthly_tou_re_ratio: number; // 各月份時段匹配率
-  optimization_mode: string; // 優化模式
+  additionality_score: number; // Additionality 評分 (1-5)
+  implementation_difficulty: number; // 採購難度評分 (1-5)
+  period_re_ratio: PeriodRERatio; // 各時段匹配率 
+  monthly_tou_re_ratio: MonthlyTouReRatio[]; // 各月份時段匹配率
+  optimization_mode: OptimizationStrategy; // 優化模式 0-3 代表不同模式 
   taipower_cost: number; // 台電採購成本 (NTD)
   total_electricity_cost: number; // 總電力成本 (NTD)
   total_electricity_unit_cost: number; // 總度電成本 (NTD/kWh)
 };
+
+export type PeriodRERatio = {
+  peak: number,
+  mid_peak: number,
+  off_peak: number,
+  sat_mid_peak: number
+}
+
+export type MonthlyTouReRatio = {
+  month: number; // 月份，1-12
+  tou_re_ratio: PeriodRERatio; // 各時段的匹配率
+}
+
+export enum OptimizationStrategy {
+  Standard = 0,
+  MaximizePhysical = 1,
+  FixPhysical = 2,
+  ReduceSurplus = 3,
+}
+
+export enum SiteType{
+  DayShiftFactory = 0,
+  FactoryNightShiftOneThird = 1,
+  FactoryNightShiftHalf = 2,
+  Office = 3,
+}
+
+export enum ProcureOption {
+  PhysicalPPASolar = 0,
+  PhysicalPPAOnshoreWind = 1,
+  PhysicalPPAOffshoreWind = 2,
+  PhysicalPPASmallHydro = 3,
+  PhysicalPPABiomass = 4,
+}
+
+export const exampleReRatio: PeriodRERatio = {
+  peak: 0.8,
+  mid_peak: 0.75,
+  off_peak: 0.7,
+  sat_mid_peak: 0.65,
+};
+
+export const exampleMonthlyTouReRatio: MonthlyTouReRatio[] = [
+  { month: 1, tou_re_ratio: { peak: 0.8, mid_peak: 0.75, off_peak: 0.7, sat_mid_peak: 0.65 } },
+  { month: 2, tou_re_ratio: { peak: 0.82, mid_peak: 0.76, off_peak: 0.72, sat_mid_peak: 0.66 } },
+  { month: 3, tou_re_ratio: { peak: 0.78, mid_peak: 0.74, off_peak: 0.68, sat_mid_peak: 0.64 } },
+  { month: 4, tou_re_ratio: { peak: 0.79, mid_peak: 0.73, off_peak: 0.69, sat_mid_peak: 0.63 } },
+  { month: 5, tou_re_ratio: { peak: 0.81, mid_peak: 0.77, off_peak: 0.71, sat_mid_peak: 0.67 } },
+  { month: 6, tou_re_ratio: { peak: 0.83, mid_peak: 0.78, off_peak: 0.73, sat_mid_peak: 0.68 } },
+  { month: 7, tou_re_ratio: { peak: 0.84, mid_peak: 0.79, off_peak: 0.74, sat_mid_peak: 0.69 } },
+  { month: 8, tou_re_ratio: { peak: 0.85, mid_peak: 0.80, off_peak: 0.75, sat_mid_peak: 0.70 } },
+  { month: 9, tou_re_ratio: { peak: 0.86, mid_peak: 0.81, off_peak: 0.76, sat_mid_peak: 0.71 } },
+  { month: 10, tou_re_ratio: { peak: 0.87, mid_peak: 0.82, off_peak: 0.77, sat_mid_peak: 0.72 } },
+  { month: 11, tou_re_ratio: { peak: 0.88, mid_peak: 0.83, off_peak: 0.78, sat_mid_peak: 0.73 } },
+  { month: 12, tou_re_ratio: { peak: 0.89, mid_peak: 0.84, off_peak: 0.79, sat_mid_peak: 0.74 } },
+];
 
 export const exampleLowCostResult: OutputResult = {
   type: "lowest cost",
@@ -74,11 +134,11 @@ export const exampleLowCostResult: OutputResult = {
       total_surplus: 10000,
       total_procurement: 900000,
       surplus_ratio: 0.01,
-      additionality_score: 85,
+      additionality_score: 5,
       implementation_difficulty: 3,
-      period_re_ratio: 0.8,
-      monthly_tou_re_ratio: 0.75,
-      optimization_mode: "cost",
+      period_re_ratio: exampleReRatio,
+      monthly_tou_re_ratio: exampleMonthlyTouReRatio,
+      optimization_mode: 0,
       taipower_cost: 8000000,
       total_electricity_cost: 12000000,
       total_electricity_unit_cost: 2.4,
@@ -107,11 +167,11 @@ export const exampleLowSurplusResult: OutputResult = {
   total_surplus: 10000,
   total_procurement: 900000,
   surplus_ratio: 0.01,
-  additionality_score: 85,
+  additionality_score: 5,
   implementation_difficulty: 3,
-  period_re_ratio: 0.8,
-  monthly_tou_re_ratio: 0.75,
-  optimization_mode: "cost",
+  period_re_ratio: exampleReRatio,
+  monthly_tou_re_ratio: exampleMonthlyTouReRatio,
+  optimization_mode: 0,
   taipower_cost: 8000000,
   total_electricity_cost: 12000000,
   total_electricity_unit_cost: 2.4,
@@ -146,6 +206,9 @@ export const exampleDataResult: HistoryResult = {
     annual_consumption: 1000000,
     target_ratio: 50,
     target_year: 2030,
+    use_rec: false,
+    use_onsite: false,
+    onsite_area: 0,
   },
   output_result: [
     exampleLowCostResult,
@@ -167,6 +230,9 @@ export const exampleSiteResult: SiteResult = {
     annual_consumption: 1000000,
     target_ratio: 50,
     target_year: 2030,
+    use_rec: false,
+    use_onsite: false,
+    onsite_area: 0,
   },
   output_result: exampleLowCostResult
 };

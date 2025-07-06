@@ -21,7 +21,7 @@ export const navigations: Navigation[] = [
   {
     icon: Factory,
     name: "Sites",
-    href: "/site",
+    href: "/sites",
   },
   {
     icon: Calculator,
@@ -31,7 +31,7 @@ export const navigations: Navigation[] = [
   {
     icon: History,
     name: "History",
-    href: "/history",
+    href: "/histories",
   },
   {
     icon: Rss,

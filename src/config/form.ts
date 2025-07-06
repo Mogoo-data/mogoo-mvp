@@ -1,3 +1,5 @@
+import { SiteType, ProcureOption } from "@/types/types"
+
 // Form model with the provided options
 enum SiteTypeOptions {
   DayShiftFactory = "Day Shift Factory",
@@ -60,8 +62,17 @@ export const formOptions = {
   countries: Object.values(CountryOptions),
   procureOptions: Object.values(ProcureOptions),
   industryOptions: Object.values(IndustryOptions),
-  electricityTypeOptions: Object.values(ElectricityTypeOptions),
-  siteTypeOptions: Object.values(SiteTypeOptions),
+  electricityTypeOptions: [
+    { label: ElectricityTypeOptions.LowVoltageDemandPower, value: "0" },
+    { label: ElectricityTypeOptions.HighVoltageDemandPower, value: "1" },
+    { label: ElectricityTypeOptions.ExtraHighVoltageDemandPower, value: "2" },
+  ],
+  siteTypeOptions: [
+    { label: SiteTypeOptions.DayShiftFactory, value: "0" },
+    { label: SiteTypeOptions.FactoryNightShiftOneThird, value: "1" },
+    { label: SiteTypeOptions.FactoryNightShiftHalf, value: "2" },
+    { label: SiteTypeOptions.Office, value: "3" },
+  ],
   targetYear: Array.from({ length: 25 }, (_, i) => (new Date().getFullYear() + i).toString()),
   expandReduceOptions: Object.values(ExpandReduceOptions),
 }

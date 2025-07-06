@@ -1,23 +1,21 @@
-import {
-  AverageTicketsCreated,
-  Conversions,
-  CustomerSatisfication,
-  Metrics,
-  TicketByChannels,
-} from "@/components/chart-blocks";
-import Container from "@/components/container";
-
 import { SiteResult } from "@/types/types";
 import { MarketNews, marketNewsExample } from "@/types/types";
 import SummaryCard from '@/app/(dashboard)/summaryCard';
 import MarketCard from "./marketCard";
 import SitesCard from "./sitesCard";
 import ResourceCard from "../../components/card-blocks/resourceCard";
+import { cookies } from 'next/headers';
 
 async function fetchData(): Promise<SiteResult[]> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/site/all`);
+  const cookieStore = await cookies(); 
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sites/all`, {
+    headers: {
+      cookie: cookieStore.toString(),
+    },
+    cache: 'no-store',
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch data');
+    throw new Error(`Failed to fetch data: ${response.status} ${await response.json()}`);
   }
   return response.json();
 }
@@ -32,24 +30,5 @@ export default async function Home() {
       <SitesCard data={data}></SitesCard>
       <ResourceCard></ResourceCard>
     </div>
-    // <div>
-    //   <Metrics />
-    //   <div className="grid grid-cols-1 divide-y border-b border-border laptop:grid-cols-3 laptop:divide-x laptop:divide-y-0 laptop:divide-border">
-    //     <Container className="py-4 laptop:col-span-2">
-    //       <AverageTicketsCreated />
-    //     </Container>
-    //     <Container className="py-4 laptop:col-span-1">
-    //       <Conversions />
-    //     </Container>
-    //   </div>
-    //   <div className="grid grid-cols-1 divide-y border-b border-border laptop:grid-cols-2 laptop:divide-x laptop:divide-y-0 laptop:divide-border">
-    //     <Container className="py-4 laptop:col-span-1">
-    //       <TicketByChannels />
-    //     </Container>
-    //     <Container className="py-4 laptop:col-span-1">
-    //       <CustomerSatisfication />
-    //     </Container>
-    //   </div>
-    // </div>
   );
 }
