@@ -1,20 +1,12 @@
-# VisActor Next.js Dashboard Template
+# Mogoo MVP Website
 
-A modern dashboard template built with [VisActor](https://visactor.io/) and Next.js, featuring a beautiful UI and rich data visualization components.
+Mogoo MVP is a Next.js-based platform designed to help users calculate and determine their optimal renewable energy purchasing strategy, tailored to both their immediate needs and long-term company goals. This tool simplifies the decision-making process for businesses looking to transition to more sustainable energy sources by providing a clear and data-driven analysis.
 
-[Live Demo](https://visactor-next-template.vercel.app/)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-description=A%20modern%20dashboard%20with%20VisActor%20charts%2C%20dark%20mode%2C%20and%20data%20visualization%20for%20seamless%20analytics.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F646TLqKGSTOnp1CD1IUqoM%2Fa119adac1f5a844f9d42f807ddc075f5%2Fthumbnail.png&demo-title=VisActor%20Next.js%20Template&demo-url=https%3A%2F%2Fvisactor-next-template.vercel.app%2F&from=templates&project-name=VisActor%20Next.js%20Template&repository-name=visactor-nextjs-template&repository-url=https%3A%2F%2Fgithub.com%2Fmengxi-ream%2Fvisactor-next-template&skippable-integrations=1)
 
 ## Features
-
-- 📊 **Rich Visualizations** - Powered by VisActor, including bar charts, gauge charts, circle packing charts, and more
-- 🌗 **Dark Mode** - Seamless dark/light mode switching with system preference support
-- 📱 **Responsive Design** - Fully responsive layout that works on all devices
-- 🎨 **Beautiful UI** - Modern and clean interface built with Tailwind CSS
-- ⚡️ **Next.js 15** - Built on the latest Next.js features and best practices
-- 🔄 **State Management** - Efficient state management with Jotai
-- 📦 **Component Library** - Includes Shadcn components styled with Tailwind
+- **Personalized Energy Calculations** - Helps users calculate their renewable energy needs based on usage and specific company goals.
+- **Renewable Energy Options** - Provides a comprehensive view of different renewable energy sources (solar, wind, etc.) and their suitability for the user's needs.
+- **Dynamic Recommendations** - Offers dynamic, real-time suggestions for energy purchases based on the input data.
 
 ## Tech Stack
 
@@ -24,12 +16,11 @@ A modern dashboard template built with [VisActor](https://visactor.io/) and Next
 - [Shadcn](https://ui.shadcn.com/) - UI components
 - [Jotai](https://jotai.org/) - State management
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
+- API Routes for backend services and calculations
 
 ## Quick Start
 
-You can deploy this template to Vercel by clicking the button above, or clone this repository and run it locally.
-
-[Github Repo](https://github.com/mengxi-ream/visactor-next-template)
+You can clone this repository and run it locally.
 
 1. Clone this repository
 
@@ -56,7 +47,16 @@ pnpm dev
 ```bash
 src/
 ├── app/ # App router pages
+│ ├── (dashboard)/ # main dashboard page
+│ ├── api/  # nextjs backend api route
+│ ├── calculator/ 
+│ ├── histories/ 
+│ ├── login/
+│ ├── market/
+│ ├── resource/
+│ └── sites/ 
 ├── components/ # React components
+│ ├── card-blocks/ # Card components
 │ ├── chart-blocks/ # Chart components
 │ ├── nav/ # Navigation components
 │ └── ui/ # UI components
@@ -67,27 +67,3 @@ src/
 ├── style/ # Global style
 └── types/ # TypeScript types
 ```
-
-## Charts
-
-This template includes several chart examples:
-
-- Average Tickets Created (Bar Chart)
-- Ticket by Channels (Gauge Chart)
-- Conversions (Circle Packing Chart)
-- Customer Satisfaction (Linear Progress)
-- Metrics Overview
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-- [VisActor](https://visactor.io/) - For the amazing visualization library
-- [Vercel](https://vercel.com) - For the incredible deployment platform
-- [Next.js](https://nextjs.org/) - For the awesome React framework
